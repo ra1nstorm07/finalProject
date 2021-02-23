@@ -1,0 +1,70 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         version="2.5"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <display-name>Archetype Created Web Application</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogInServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.LogInServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ConferencesServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.ConferencesServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ProfileServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.ProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditInformationServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.EditInformationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.AdminServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminEditInformationServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.AdminEditInformationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/registration</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogInServlet</servlet-name>
+    <url-pattern>/logIn</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ConferencesServlet</servlet-name>
+    <url-pattern>/showConferences</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProfileServlet</servlet-name>
+    <url-pattern>/profile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditInformationServlet</servlet-name>
+    <url-pattern>/editInformation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminEditInformationServlet</servlet-name>
+    <url-pattern>/adminEdit</url-pattern>
+  </servlet-mapping>
+</web-app>
