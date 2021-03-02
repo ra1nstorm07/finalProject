@@ -1,5 +1,7 @@
 package com.ua.lashyn.db.entity;
 
+import com.ua.lashyn.db.DAO.CommonTopicDAO;
+
 public class Conference {
     private long id;
     private String name;
@@ -48,6 +50,11 @@ public class Conference {
         this.common_topic_id = common_topic_id;
     }
 
+    public String getCommonTopic() {
+        CommonTopicDAO commonTopicDAO = new CommonTopicDAO();
+        return commonTopicDAO.getCommonTopicName(common_topic_id);
+    }
+
     @Override
     public String toString() {
         return "Conference{" +
@@ -58,4 +65,5 @@ public class Conference {
                 ", location='" + location + '\'' +
                 '}';
     }
+
 }

@@ -3,7 +3,7 @@ html {
 }
 
 .header {
-    font-family: 'Big Shoulders Display', cursive;
+    font-family: 'Big Shoulders Display', sans-serif;
     background-color: #0c852c;
     border-bottom: 4px solid #40403d;
     border-bottom-left-radius: 3%;
@@ -17,7 +17,7 @@ html {
 }
 
 .navigationBar {
-    font-family: 'Big Shoulders Display', cursive;
+    font-family: 'Big Shoulders Display', sans-serif;
     display: inline;
     background-color: rgba(0, 0, 0, 0);
     margin-left: auto;
@@ -29,25 +29,25 @@ html {
 
 #notHiddenLinks {
     display: block;
-    font-family: 'Big Shoulders Display', cursive;
+    font-family: 'Big Shoulders Display', sans-serif;
     position: absolute;
     right: 6%;
     top: 22%;
     background-color: rgba(0, 0, 0, 0);
     font-size: 1.3em;
-    width: 7%;
+    width: 20%;
     text-decoration: none;
 }
 
 #hiddenLinks {
     display: none;
-    font-family: 'Big Shoulders Display', cursive;
+    font-family: 'Big Shoulders Display', sans-serif;
     position: absolute;
     right: 6%;
     top: 22%;
     background-color: rgba(0, 0, 0, 0);
     font-size: 1.3em;
-    width: 15%;
+    width: 20%;
     text-decoration: none;
 }
 
@@ -260,7 +260,7 @@ label {
 }
 
 
-#hiddenWindow, #hiddenWindow2, #hiddenWindow3 {
+#hiddenWindow, #hiddenWindow2, #hiddenWindow3, #hiddenWindow4, #hiddenWindow5, #hiddenWindow6 {
     font-family: 'Roboto', sans-serif;
     position: fixed;
     top: 25%;
@@ -273,22 +273,11 @@ label {
     background-color: #0c852c;
 }
 
-#adminLink {
-
-}
-
-
-
 .updatePanel {
     text-align: center;
 }
 
-.updatePanel2 {
-    text-align: center;
-    display: none;
-}
-
-.updatePanel3 {
+.updatePanel2, .updatePanel3, .updatePanel4, .updatePanel5, .updatePanel6 {
     text-align: center;
     display: none;
 }
@@ -369,6 +358,69 @@ tr td:last-child {
     background-color: rgba (0, 0, 0, 0);
 }
 
+.conferences_list {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8%;
+    width: 25%;
+}
 
+.conference {
+    font-family: 'Big Shoulders Display', sans-serif;
+    background-color: #0c852c;
+    height: 225px;
+    border: 2px solid #40403d;
+    border-radius: 0.7em;
+    margin-left: 25px;
+    margin-top: 25px;
+}
 
+.conference a, .conference p {
+    display: block;
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+}
 
+.conf_date {
+    color: #40403d;
+}
+
+.conf_link {
+    color: black;
+    text-decoration: underline;
+}
+
+.pagination {
+    font-size: 1.2em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.paginationLink {
+    text-align: center;
+    color: #0c852c;
+    margin-right: 7px;
+    text-decoration: none;
+}
+
+.paginationCurrentLink {
+    text-align: center;
+    color: #823310;
+    margin-right: 7px;
+    text-decoration: none;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: default;
+}
+
+.languageLinks {
+    font-family: 'Big Shoulders Display', sans-serif;
+    position: absolute;
+    left: 6%;
+    top: 22%;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 1.3em;
+    width: 7%;
+    text-decoration: none;
+}

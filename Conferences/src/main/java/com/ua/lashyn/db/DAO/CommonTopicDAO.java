@@ -3,7 +3,7 @@ package com.ua.lashyn.db.DAO;
 import com.ua.lashyn.db.DAO.connection.ConnectionManagement;
 import com.ua.lashyn.db.DAO.constants.Request;
 import com.ua.lashyn.db.entity.CommonTopic;
-import com.ua.lashyn.db.entity.Conference;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CommonTopicDAO {
+
+    private static final Logger log = Logger.getLogger(CommonTopicDAO.class);
 
     public CommonTopic readCommonTopic(ResultSet rs) throws SQLException {
         CommonTopic commonTopic = new CommonTopic();
@@ -33,7 +35,7 @@ public class CommonTopicDAO {
             }
 
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException.getStackTrace());
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }
@@ -54,10 +56,91 @@ public class CommonTopicDAO {
                 commonTopic.setName(rs.getString("name"));
             }
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }
         return commonTopic;
+    }
+
+    public String getCommonTopicName(long id) {
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.GET_COMMON_TOPIC_BY_ID);
+            preparedStatement.setLong(1, id);
+            rs = preparedStatement.executeQuery();
+            if(rs.next())
+                return readCommonTopic(rs).getName();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement, rs);
+        }
+        return "";
+    }
+
+    public long getCommonTopicIdByName(String name){
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.GET_COMMON_TOPIC_BY_NAME);
+            preparedStatement.setString(1, name);
+            rs = preparedStatement.executeQuery();
+            if(rs.next())
+                return readCommonTopic(rs).getId();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement, rs);
+        }
+        return 0;
+    }
+
+    public void adminUpdateCommonTopic(CommonTopic commonTopic){
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.ADMIN_UPDATE_COMMON_TOPIC);
+            preparedStatement.setString(1, commonTopic.getName());
+            preparedStatement.setLong(2, commonTopic.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
+    }
+
+    public void deleteCommonTopic(long id) {
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.DELETE_FROM_COMMON_TOPIC);
+            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, id);
+            preparedStatement.setLong(3, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
+    }
+
+    public void addCommonTopic(CommonTopic commonTopic) {
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.ADD_COMMON_TOPIC);
+            preparedStatement.setString(1, commonTopic.getName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
     }
 }

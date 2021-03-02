@@ -7,8 +7,8 @@ public class User {
     private String address;
     private String email;
     private String password;
-    private long conference_id;
     private boolean admin_privilegies;
+
 
     public long getId() {
         return id;
@@ -32,10 +32,6 @@ public class User {
 
     public String getAddress() {
         return address;
-    }
-
-    public long getConference_id() {
-        return conference_id;
     }
 
     public boolean getAdmin_privilegies() {
@@ -66,10 +62,6 @@ public class User {
         this.address = address;
     }
 
-    public void setConference_id(long conference_id) {
-        this.conference_id = conference_id;
-    }
-
     public void setAdmin_privilegies(boolean admin_privilegies) {
         this.admin_privilegies = admin_privilegies;
     }
@@ -83,7 +75,6 @@ public class User {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", conference_id=" + conference_id +
                 ", admin_privilegies=" + admin_privilegies +
                 '}';
     }

@@ -9,7 +9,7 @@
 
   <display-name>Archetype Created Web Application</display-name>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>mainPage</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
@@ -36,8 +36,16 @@
     <servlet-class>com.ua.lashyn.controllers.AdminServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>AdminEditInformationServlet</servlet-name>
-    <servlet-class>com.ua.lashyn.controllers.AdminEditInformationServlet</servlet-class>
+    <servlet-name>JoinConferenceServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.JoinConferenceServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MainPageServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LanguageServlet</servlet-name>
+    <servlet-class>com.ua.lashyn.controllers.LanguageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RegisterServlet</servlet-name>
@@ -64,7 +72,15 @@
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AdminEditInformationServlet</servlet-name>
-    <url-pattern>/adminEdit</url-pattern>
+    <servlet-name>JoinConferenceServlet</servlet-name>
+    <url-pattern>/joinConference</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MainPageServlet</servlet-name>
+    <url-pattern>/mainPage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LanguageServlet</servlet-name>
+    <url-pattern>/language</url-pattern>
   </servlet-mapping>
 </web-app>

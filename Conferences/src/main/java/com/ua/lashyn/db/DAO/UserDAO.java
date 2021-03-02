@@ -2,8 +2,8 @@ package com.ua.lashyn.db.DAO;
 
 import com.ua.lashyn.db.DAO.connection.ConnectionManagement;
 import com.ua.lashyn.db.DAO.constants.Request;
-import com.ua.lashyn.db.entity.Conference;
 import com.ua.lashyn.db.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class UserDAO {
 
     private static UserDAO userDAO;
-    private static ResultSet rs = null;
+    private static final Logger log = Logger.getLogger(UserDAO.class);
 
     public static UserDAO getInstance() {
         if (userDAO == null) {
@@ -33,9 +33,9 @@ public class UserDAO {
             preparedStatement.setBoolean(6, user.getAdmin_privilegies());
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
-            ConnectionManagement.closing(connection, preparedStatement, rs);
+            ConnectionManagement.closing(connection, preparedStatement);
         }
     }
 
@@ -51,14 +51,14 @@ public class UserDAO {
             preparedStatement.setLong(5, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
-            ConnectionManagement.closing(connection, preparedStatement, rs);
+            ConnectionManagement.closing(connection, preparedStatement);
         }
         return getUserById(user.getId());
     }
 
-    public User adminUpdateUser(User user){
+    public void adminUpdateUser(User user){
         Connection connection = ConnectionManagement.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -72,25 +72,78 @@ public class UserDAO {
             preparedStatement.setLong(7, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
-            ConnectionManagement.closing(connection, preparedStatement, rs);
+            ConnectionManagement.closing(connection, preparedStatement);
         }
-        return getUserById(user.getId());
     }
 
-    public void joinConference(long user_id, long conference_id) {
+    public void deleteUser(long id){
         Connection connection = ConnectionManagement.getConnection();
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(Request.USER_JOIN_CONFERENCE);
-            preparedStatement.setLong(1, conference_id);
-            preparedStatement.setLong(2, user_id);
+            preparedStatement = connection.prepareStatement(Request.DELETE_FROM_USER);
+            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, id);
+            preparedStatement.setLong(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
-            ConnectionManagement.closing(connection, preparedStatement, rs);
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
+    }
+
+    public void addUser(User user){
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.ADD_USER);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getAddress());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setBoolean(6, user.getAdmin_privilegies());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
+    }
+
+    public void joinConferenceAsUser(long user_id, long conference_id) {
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.JOIN_CONFERENCE_AS_USER);
+            preparedStatement.setLong(1, user_id);
+            preparedStatement.setLong(2, conference_id);
+            preparedStatement.setBoolean(3, false);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
+        }
+    }
+
+    public void joinConferenceAsSpeaker(long user_id, long conference_id, long topic_id) {
+        Connection connection = ConnectionManagement.getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(Request.JOIN_CONFERENCE_AS_SPEAKER);
+            preparedStatement.setLong(1, user_id);
+            preparedStatement.setLong(2, conference_id);
+            preparedStatement.setBoolean(3, false);
+            preparedStatement.setLong(4, user_id);
+            preparedStatement.setLong(5, topic_id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+        } finally {
+            ConnectionManagement.closing(connection, preparedStatement);
         }
     }
 
@@ -98,14 +151,15 @@ public class UserDAO {
         boolean status=false;
         Connection connection = ConnectionManagement.getConnection();
         PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
         try{
             preparedStatement = connection.prepareStatement(Request.VALIDATE);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
             status = rs.next();
         }catch(SQLException sqlException){
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }
@@ -124,7 +178,7 @@ public class UserDAO {
             if(rs.next())
                 id = rs.getLong("id");
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }
@@ -148,10 +202,9 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setAdmin_privilegies(rs.getBoolean("admin_privilegies"));
-                user.setConference_id(rs.getLong("id"));
             }
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }
@@ -178,11 +231,11 @@ public class UserDAO {
         try {
             preparedStatement = connection.prepareStatement(Request.GET_USERS);
             rs = preparedStatement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 users.add(readUser(rs));
             }
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            log.error(sqlException);
         } finally {
             ConnectionManagement.closing(connection, preparedStatement, rs);
         }

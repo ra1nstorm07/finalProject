@@ -7,21 +7,23 @@ import java.util.logging.Logger;
 
 public class ConnectionManagement {
 
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ConnectionManagement.class);
+
     public static Connection getConnection() {
         Connection conn = null;
         Properties properties=new Properties();
         properties.setProperty("useUnicode","true");
         properties.setProperty("characterEncoding","UTF-8");
-        String url = "jdbc:mysql://localhost:3306/ConferencesDatabase?user=root&password=Alex7778&serverTimezone=Europe/Kiev&useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/ConferencesDatabase?user=root&password=Alex7778&serverTimezone=Europe/Kiev&useSSL=false&allowMultiQueries=true";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
         } catch (InstantiationException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         try {
             conn = DriverManager.getConnection(url, properties);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return conn;
     }
@@ -51,7 +53,4 @@ public class ConnectionManagement {
         }
     }
 
-    public static void main(String[] args) {
-        getConnection();
-    }
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=cp1251" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta charset = "cp1251">
@@ -11,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
+    <fmt:setLocale value="${language}"/>
+    <fmt:setBundle basename="res"/>
     <%
         if(request.getParameter("id") != null){
             String idParam = request.getParameter("id");
@@ -20,37 +23,42 @@
             request.setAttribute("idVal", request.getAttribute("id"));
     %>
     <div class="header">
-       <a href="index.jsp?id=${idVal}"><img id="logo" src="images/logo.gif" alt=""></a>
-       <p class="mainText">Our events for you</p>
+       <a href="mainPage?id=${idVal}"><img id="logo" src="images/logo.gif" alt=""></a>
+       <nav class="languageLinks">
+            <a class="links" href="language?language=en">En</a>
+            <a class="links" href="language?language=ru">Ru</a>
+       </nav>
+       <p class="mainText"><fmt:message key="events_page_header_text"/></p>
         <nav class="navigationBar">
-            <a class="links" href="index.jsp?id=${idVal}">Main page</a>
-            <a class="links" href="showConferences?id=${idVal}">Events</a>
+            <a class="links" href="mainPage?id=${idVal}"><fmt:message key="main_page_text"/></a>
+            <a class="links" href="showConferences?id=${idVal}"><fmt:message key="events_text"/></a>
         </nav>
         <nav id="notHiddenLinks">
-            <a class="links" href="RegistrationPage.jsp">Sign up</a>
-            <a class="links" href="LogInPage.jsp">Log in</a>
+            <a class="links" href="RegistrationPage.jsp"><fmt:message key="sign_up_text"/></a>
+            <a class="links" href="LogInPage.jsp"><fmt:message key="log_in_text"/></a>
         </nav>
         <nav id="hiddenLinks">
-            <a class="links" id="adminLink" href="admin?id=${idVal}">Administration</a>
-            <a class="current" href="profile">Profile</a>
-            <a class="changeOnClick links" href="index.jsp">Log out</a>
+            <c:if test="${idVal == 1}">
+                <a class="links" id="adminLink" href="admin?id=${idVal}"><fmt:message key="administration_text"/></a>
+            </c:if>
+            <a class="current" href="profile"><fmt:message key="profile_text"/></a>
+            <a class="changeOnClick links" href="mainPage"><fmt:message key="log_out_text"/></a>
         </nav>
     </div>
     <div class="profile">
             <div class="userInformation">
                  <img class="profileImage" src="images/no-avatar-empty.png">
                  <div class="personalInformation">
-                     <p class="userInfoTitle informationField">User information</p>
-                     <p class="informationField">Name: ${user.getName()}</p>
-                     <p class="informationField">Surname: ${user.getSurname()}</p>
-                     <p class="informationField">Address: ${user.getAddress()}</p>
-                     <p class="informationField">Email: ${user.getEmail()}</p>
-                     <p class="informationField">Type of user: speaker</p>
-                     <button class="button" id="editButton" type="button" onclick="displayBlock1()">Edit information</button>
+                     <p class="userInfoTitle informationField"><fmt:message key="user_information_text"/></p>
+                     <p class="informationField"><fmt:message key="name_text"/>: ${user.getName()}</p>
+                     <p class="informationField"><fmt:message key="surname_text"/>: ${user.getSurname()}</p>
+                     <p class="informationField"><fmt:message key="address_text"/>: ${user.getAddress()}</p>
+                     <p class="informationField"><fmt:message key="email_text"/>: ${user.getEmail()}</p>
+                     <button class="button" id="editButton" type="button" onclick="displayBlock1()"><fmt:message key="edit_information_button"/></button>
                  </div>
             </div>
             <div class="participationInConfs">
-               <p class="confInfoTitle informationField">Participation information</p>
+               <p class="confInfoTitle informationField"><fmt:message key="participation_information_text"/></p>
                 <div class="confPartList">
                     <c:forEach var="conf" items="${confList}">
                         <div class="participationInfo">
@@ -67,40 +75,30 @@
                         <button id ="closeWindow" type="button" onclick = "close_window()">
                         <img src="images/close.png" width="35px"></button></div>
                         <div align = "center" id="content">
-                            <h1 class="form-name">Edit information</h1>
+                            <h1 class="form-name"><fmt:message key="edit_information_button"/></h1>
                             <form action="editInformation?id=${idVal}" method="post" class="wrapper">
                                 <div class="field">
-                                    <label>Name: </label>
+                                    <label><fmt:message key="name_text"/>: </label>
                                     <p><input name="name" id="name" type="text" value="${user.getName()}" size = 30></p>
                                 </div>
                                 <div class="field">
-                                    <label>Surname: </label>
+                                    <label><fmt:message key="surname_text"/>: </label>
                                     <p><input name="surname" id="surname" type="text" value="${user.getSurname()}" size = 30></p>
                                 </div>
                                 <div class="field">
-                                    <label>Address: </label>
+                                    <label><fmt:message key="address_text"/>: </label>
                                     <p><input name="address" id="address" type="text" value="${user.getAddress()}" size = 30></p>
                                 </div>
                                 <div class="field">
-                                    <label>Password: </label>
+                                    <label><fmt:message key="password_text"/>: </label>
                                     <p><input name="password" id="password" type="password" value="${user.getPassword()}" size = 30></p>
                                 </div>
                                 <div class="buttons">
-                                    <p class="buttons"><button name="button" type="submit"  id="changeOnClick" class="button">Confirm</button></p>
+                                    <p class="buttons"><button name="button" type="submit"  id="changeOnClick" class="button"><fmt:message key="confirm_button"/></button></p>
                                 </div>
                             </form>
                         </div>
                 </div>
     </div>
-    <script>
-        function displayBlock1() {
-            document.getElementById("hidden").style.display = 'block';
-            document.getElementById("hiddenWindow").style.display = 'block';
-        }
-        function close_window() {
-            document.getElementById("hidden").style.display = 'none';
-            document.getElementById("hiddenWindow").style.display = 'none';
-        }
-    </script>
 </body>
 </html>
